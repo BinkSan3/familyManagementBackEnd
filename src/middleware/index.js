@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
+const Family = require("../family/model");
 
 const hashPass = async (req, res, next) => {
   try {
@@ -10,6 +11,33 @@ const hashPass = async (req, res, next) => {
   }
 };
 
+const comparePass = async (req, res, next) => {
+  try {
+    if (!req.body.username) {
+      res.status(500).json({ message: "Username cannot be blank." });
+      return;
+    }
+
+    req.user = await Family.findOne({ where: { username: req.body.username } });
+    if (!req.user) {
+      res.status(401).json({ message: "Invalid username." });
+      return;
+    }
+    const passwordMatch = await bcrypt.compare(
+      req.body.password,
+      req.user.password
+    );
+    if (!passwordMatch) {
+      res.status(401).json({ message: "Unauthorised Login!" });
+      return;
+    }
+    next();
+  } catch (error) {
+    res.status(501).json({ message: error.message, error });
+  }
+};
+
 module.exports = {
   hashPass,
+  comparePass,
 };
