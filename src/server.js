@@ -17,7 +17,7 @@ app.use(
 );
 
 app.get("/health", (req, res) => {
-  res.json(200).json({ message: "API is healthy!" });
+  res.status(200).json({ message: "API is healthy!" });
 });
 
 app.listen(port, async () => {
