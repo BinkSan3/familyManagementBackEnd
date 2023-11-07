@@ -19,14 +19,16 @@ const comparePass = async (req, res, next) => {
       return;
     }
 
-    req.user = await Family.findOne({ where: { username: req.body.username } });
-    if (!req.user) {
+    req.family = await Family.findOne({
+      where: { username: req.body.username },
+    });
+    if (!req.family) {
       res.status(401).json({ message: "Invalid username." });
       return;
     }
     const passwordMatch = await bcrypt.compare(
       req.body.password,
-      req.user.password
+      req.family.password
     );
     if (!passwordMatch) {
       res.status(401).json({ message: "Unauthorised Login!" });
@@ -42,13 +44,12 @@ const tokenCheck = async (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
     const decodedToken = await jwt.verify(token, process.env.SECRET_KEY);
-    req.user = await Family.findOne({ where: { id: decodedToken.id } });
-    if (!req.user) {
+    req.verification = await Family.findOne({ where: { id: decodedToken.id } });
+    if (!req.verification) {
       const error = new Error("User is not Authorised");
       res.status(401).json({ message: error.message, error: error });
     }
 
-    req.passwordMatch = true;
     next();
   } catch (error) {
     console.log(error);
