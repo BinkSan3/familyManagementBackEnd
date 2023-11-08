@@ -6,7 +6,7 @@ const Member = connection.define("Member", {
     type: DataTypes.STRING,
   },
   totalPoints: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
   },
 });
 

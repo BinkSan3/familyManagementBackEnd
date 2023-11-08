@@ -26,17 +26,17 @@ app.use(
 );
 
 app.use("/family", familyRouter);
-// app.use("/member", memberRouter);
-// app.use("/task", taskRouter);
+app.use("/member", memberRouter);
+app.use("/task", taskRouter);
 
 const syncTables = async () => {
-  // await Family.hasMany(Member);
-  // await Member.belongsTo(Family);
+  await Family.hasMany(Member);
+  await Member.belongsTo(Family);
 
-  // await Member.hasMany(Task);
-  // await Task.belongsTo(Member);
+  await Member.hasMany(Task);
+  await Task.belongsTo(Member);
 
-  // await Task.sync();
+  await Task.sync();
   await Member.sync();
   await Family.sync();
 };
