@@ -85,7 +85,27 @@ const updateFamilyUsername = async (req, res) => {
     );
     res
       .status(201)
-      .json({ message: "Family name successfully updated!", result });
+      .json({ message: "Family username successfully updated!", result });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
+const updateFamilyPassword = async (req, res) => {
+  try {
+    const result = await Family.update(
+      {
+        password: req.body.newPassword,
+      },
+      {
+        where: {
+          password: req.body.password,
+        },
+      }
+    );
+    res
+      .status(201)
+      .json({ message: "Family password successfully updated!", result });
   } catch (error) {
     res.status(500).json({ message: error.message, error: error });
   }
@@ -97,4 +117,5 @@ module.exports = {
   registerFamily,
   loginFamily,
   updateFamilyUsername,
+  updateFamilyPassword,
 };
