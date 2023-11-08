@@ -45,7 +45,6 @@ const tokenCheck = async (req, res, next) => {
     const token = req.header("Authorization").replace("Bearer ", "");
     const decodedToken = await jwt.verify(token, process.env.SECRET_KEY);
     req.verification = await Family.findOne({ where: { id: decodedToken.id } });
-    console.log("From TOKENCHECK", req.verification);
     if (!req.verification) {
       const error = new Error("User is not Authorised");
       res.status(401).json({ message: error.message, error: error });
