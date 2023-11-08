@@ -7,7 +7,7 @@ const Task = connection.define("Task", {
     allowNull: false,
   },
   points: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 });

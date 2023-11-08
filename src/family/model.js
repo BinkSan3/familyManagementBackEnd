@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const connection = require("../db/connection");
 
-const Family = connection.define("User", {
+const Family = connection.define("Family", {
   username: {
     type: DataTypes.STRING,
     unique: true,
