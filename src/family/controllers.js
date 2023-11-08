@@ -77,8 +77,24 @@ const loginFamily = async (req, res) => {
   }
 };
 
+const updateFamilyUsername = async (req, res) => {
+  try {
+    const result = await Family.update(
+      { username: req.body.newUsername },
+      { where: { username: req.body.username } }
+    );
+    res
+      .status(201)
+      .json({ message: "Family name successfully updated!", result });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
 module.exports = {
   getAllFamilies,
   getSingleFamily,
   registerFamily,
+  loginFamily,
+  updateFamilyUsername,
 };
