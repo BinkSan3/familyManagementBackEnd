@@ -10,6 +10,10 @@ const Member = connection.define("Member", {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+  url: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 });
 
 module.exports = Member;
