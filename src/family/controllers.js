@@ -1,5 +1,6 @@
 const Family = require("./model");
 const jwt = require("jsonwebtoken");
+const { findMissingRequiredFields } = require("../utils/utils.js");
 
 const getAllFamilies = async (req, res) => {
   try {
