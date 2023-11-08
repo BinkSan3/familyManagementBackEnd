@@ -1,9 +1,18 @@
 const Member = require("./model");
+const Family = require("../family/model");
 const jwt = require("jsonwebtoken");
 
 const addMember = async (req, res) => {
   try {
-    const result = await Member.create(req.body);
+    if (!req.verification) {
+      console.log(req.verfication);
+      throw new Error("Not signed in");
+    }
+    const FamilyId = req.verification.id;
+    const result = await Member.create({
+      FamilyId: FamilyId,
+      name: req.body.name,
+    });
 
     res.status(201).json({ message: "success", result });
   } catch (error) {
@@ -14,4 +23,39 @@ const addMember = async (req, res) => {
   }
 };
 
-module.exports = { addMember };
+const deleteMember = async (req, res) => {
+  try {
+    if (!req.verification) {
+      throw new Error("Not signed in");
+    }
+    const result = await Member.destroy({
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    const successResponse = {
+      message: "success",
+      result,
+    };
+    res.send(successResponse);
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
+const getAllMembers = async (req, res) => {
+  try {
+    const result = await Member.findAll();
+
+    if (result.length >= 1) {
+      res.status(201).json({ message: "success", result });
+      return;
+    }
+    res.status(404).json({ message: "failure" });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
+module.exports = { addMember, deleteMember, getAllMembers };
