@@ -15,6 +15,20 @@ const getAllFamilies = async (req, res) => {
   }
 };
 
+const getSingleFamily = async (req, res) => {
+  try {
+    const result = await Family.findOne({
+      where: {
+        username: req.params.username,
+      },
+    });
+    res.status(201).json({ message: "Family successfully found!", result });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
 module.exports = {
   getAllFamilies,
+  getSingleFamily,
 };
