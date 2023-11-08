@@ -111,6 +111,21 @@ const updateFamilyPassword = async (req, res) => {
   }
 };
 
+const deleteFamily = async (req, res) => {
+  try {
+    const result = await Family.destroy({
+      where: { username: req.body.username },
+    });
+    res.status(201).json({
+      message:
+        "Family account successfully deleted. Hope to see you again soon!",
+      result,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
 module.exports = {
   getAllFamilies,
   getSingleFamily,
@@ -118,4 +133,5 @@ module.exports = {
   loginFamily,
   updateFamilyUsername,
   updateFamilyPassword,
+  deleteFamily,
 };
