@@ -1,4 +1,5 @@
 const Family = require("./model");
+const jwt = require("jsonwebtoken");
 
 const getAllFamilies = async (req, res) => {
   try {
@@ -33,11 +34,9 @@ const registerFamily = async (req, res) => {
     const requiredFields = ["username", "email", "password"];
     const missingFields = findMissingRequiredFields(requiredFields, req.body);
     if (missingFields.length >= 1) {
-      res
-        .status(409)
-        .json({
-          message: `${missingFields} is missing. The fields cannot be left blank.`,
-        });
+      res.status(409).json({
+        message: `${missingFields} is missing. The fields cannot be left blank.`,
+      });
       return;
     }
     const result = await Family.create(req.body);
@@ -47,6 +46,32 @@ const registerFamily = async (req, res) => {
       res.status(412).json({ message: error.message, error: error });
       return;
     }
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
+const loginFamily = async (req, res) => {
+  try {
+    if (req.family) {
+      const token = await jwt.sign(
+        { id: req.family.id },
+        process.env.SECRET_KEY
+      );
+      res.status(201).json({
+        message: "Successful Token Check!",
+        family: {
+          username: req.family.username,
+          email: req.family.email,
+          token,
+        },
+      });
+      return;
+    }
+    if (req.authCheck) {
+      res.status(200).json({ message: "Successful Login!", family });
+      return;
+    }
+  } catch (error) {
     res.status(500).json({ message: error.message, error: error });
   }
 };
