@@ -7,6 +7,11 @@ const Member = connection.define("Member", {
   },
   totalPoints: {
     type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  url: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
 });
 

@@ -13,9 +13,6 @@ const {
 
 const { hashPass, comparePass, tokenCheck } = require("../middleware");
 
-// get all users, mainly used for testing on backend
-familyRouter.get("/", getAllFamilies);
-
 // get a family by username
 familyRouter.get("/search/family", getSingleFamily);
 
@@ -27,6 +24,9 @@ familyRouter.post("/login", comparePass, loginFamily);
 
 // token check for persistent login
 familyRouter.get("/authCheck", tokenCheck, loginFamily);
+
+// get all users, mainly used for testing on backend
+familyRouter.get("/", getAllFamilies);
 
 // update username
 familyRouter.put("/account/updateUsername", updateFamilyUsername);

@@ -53,6 +53,9 @@ const registerFamily = async (req, res) => {
 
 const loginFamily = async (req, res) => {
   try {
+    console.log("FROM LOGING", req.verification);
+    req.family = req.verification;
+
     if (req.family) {
       const token = await jwt.sign(
         { id: req.family.id },

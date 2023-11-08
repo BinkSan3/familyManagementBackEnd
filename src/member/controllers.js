@@ -1,14 +1,16 @@
 const Member = require("./model");
+const Family = require("../family/model");
 const jwt = require("jsonwebtoken");
 
 const addMember = async (req, res) => {
   try {
-    if (!req.verfication) {
+    if (!req.verification) {
+      console.log(req.verfication);
       throw new Error("Not signed in");
     }
-    const MemberId = req.verfication.id;
+    const FamilyId = req.verification.id;
     const result = await Member.create({
-      MemberId: MemberId,
+      FamilyId: FamilyId,
       name: req.body.name,
     });
 
@@ -23,7 +25,7 @@ const addMember = async (req, res) => {
 
 const deleteMember = async (req, res) => {
   try {
-    if (!req.verfication) {
+    if (!req.verification) {
       throw new Error("Not signed in");
     }
     const result = await Member.destroy({
