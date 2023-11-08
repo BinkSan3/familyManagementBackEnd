@@ -57,5 +57,26 @@ const getAllMembers = async (req, res) => {
     res.status(500).json({ message: error.message, error: error });
   }
 };
+const getFamilyMembers = async (req, res) => {
+  try {
+    if (!req.verification) {
+      throw new Error("Not signed in");
+    }
 
-module.exports = { addMember, deleteMember, getAllMembers };
+    const result = await Member.findAll({
+      where: {
+        FamilyId: req.verification.id,
+      },
+    });
+
+    if (result.length >= 1) {
+      res.status(201).json({ message: "success", result });
+      return;
+    }
+    res.status(404).json({ message: "failure" });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
+module.exports = { addMember, deleteMember, getAllMembers, getFamilyMembers };

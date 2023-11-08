@@ -1,7 +1,12 @@
 const { Router } = require("express");
 const memberRouter = Router();
 
-const { addMember, deleteMember, getAllMembers } = require("./controllers");
+const {
+  addMember,
+  deleteMember,
+  getAllMembers,
+  getFamilyMembers,
+} = require("./controllers");
 const { tokenCheck } = require("../middleware");
 
 //When initially creating family members upon registering
@@ -10,6 +15,9 @@ memberRouter.post("/", tokenCheck, addMember);
 
 //Delete member
 memberRouter.delete("/", tokenCheck, deleteMember);
+
+//Get family members as in just the members in a specific family
+memberRouter.get("/familyMembers", tokenCheck, getFamilyMembers);
 
 //Get all members
 memberRouter.get("/", getAllMembers);
