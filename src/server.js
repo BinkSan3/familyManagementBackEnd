@@ -17,7 +17,7 @@ const port = process.env.PORT || 5001;
 const app = express();
 
 app.use(express.json());
-
+//RMI|NDER
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -36,9 +36,9 @@ const syncTables = async () => {
   await Member.hasMany(Task);
   await Task.belongsTo(Member);
 
-  await Task.sync();
-  await Member.sync();
-  await Family.sync();
+  await Task.sync({ alter: true });
+  await Member.sync({ alter: true });
+  await Family.sync({ alter: true });
 };
 
 app.get("/health", (req, res) => {
