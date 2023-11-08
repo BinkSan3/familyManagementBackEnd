@@ -42,4 +42,18 @@ const deleteMember = async (req, res) => {
   }
 };
 
-module.exports = { addMember, deleteMember };
+const getAllMembers = async (req, res) => {
+  try {
+    const result = await Member.findAll();
+
+    if (result.length >= 1) {
+      res.status(201).json({ message: "success", result });
+      return;
+    }
+    res.status(404).json({ message: "failure" });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
+module.exports = { addMember, deleteMember, getAllMembers };
