@@ -28,7 +28,31 @@ const getSingleFamily = async (req, res) => {
   }
 };
 
+const registerFamily = async (req, res) => {
+  try {
+    const requiredFields = ["username", "email", "password"];
+    const missingFields = findMissingRequiredFields(requiredFields, req.body);
+    if (missingFields.length >= 1) {
+      res
+        .status(409)
+        .json({
+          message: `${missingFields} is missing. The fields cannot be left blank.`,
+        });
+      return;
+    }
+    const result = await Family.create(req.body);
+    res.status(201).json({ message: "Account successfully created!", result });
+  } catch (error) {
+    if (error.name === "SequelizeUniqueConstraintError") {
+      res.status(412).json({ message: error.message, error: error });
+      return;
+    }
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
 module.exports = {
   getAllFamilies,
   getSingleFamily,
+  registerFamily,
 };
