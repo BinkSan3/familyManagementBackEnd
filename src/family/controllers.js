@@ -101,15 +101,19 @@ const updateFamilyUsername = async (req, res) => {
 
 const updateFamilyPassword = async (req, res) => {
   try {
-    const { newPassword, username } = req.body;
+    req.family = await Family.findOne({
+      where: { username: req.body.username },
+    });
+    const { newPassword, username, password } = req.body;
+    const passwordMatch = await bcrypt.compare(password, req.family.password);
+    if (!passwordMatch) {
+      return res.status(404).json({ message: "Incorrect Password" });
+    }
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
-    console.log(
-      `Input - Username: ${username}, New Password: ${newPassword}, Hashed Password: ${hashedPassword}`
-    );
 
     const result = await Family.update(
       {
-        password: newPassword,
+        password: hashedPassword,
       },
       {
         where: {
@@ -117,7 +121,6 @@ const updateFamilyPassword = async (req, res) => {
         },
       }
     );
-    console.log("HELLO FROM RESULT", result);
     if (result[0] === 1) {
       res
         .status(201)
