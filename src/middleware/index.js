@@ -49,7 +49,6 @@ const tokenCheck = async (req, res, next) => {
       const error = new Error("User is not Authorised");
       res.status(401).json({ message: error.message, error: error });
     }
-
     next();
   } catch (error) {
     console.log(error);
