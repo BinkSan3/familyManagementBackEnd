@@ -95,7 +95,7 @@ const updateFamilyUsername = async (req, res) => {
 
 const updateFamilyPassword = async (req, res) => {
   try {
-    const { newPassword, username, password } = req.body;
+    const { newPassword, username } = req.body;
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
     console.log(
       `Input - Username: ${username}, New Password: ${newPassword}, Hashed Password: ${hashedPassword}`
