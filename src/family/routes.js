@@ -17,7 +17,7 @@ const { hashPass, comparePass, tokenCheck } = require("../middleware");
 familyRouter.get("/", getAllFamilies);
 
 // get a family by username
-familyRouter.get("/search/family", getSingleFamily);
+familyRouter.get("/search/:username", getSingleFamily);
 
 // register user in the body
 familyRouter.post("/register", hashPass, registerFamily);
