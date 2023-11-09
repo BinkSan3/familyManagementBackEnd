@@ -2,7 +2,7 @@ const Family = require("./model");
 const jwt = require("jsonwebtoken");
 const { findMissingRequiredFields } = require("../utils/utils.js");
 const bcrypt = require("bcrypt");
-const { hashPass, comparePass, tokenCheck } = require("../middleware");
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 const getAllFamilies = async (req, res) => {
   try {
@@ -95,21 +95,19 @@ const updateFamilyUsername = async (req, res) => {
 
 const updateFamilyPassword = async (req, res) => {
   try {
-    const { newPassword, username, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const { newPassword, username, password } = req.body;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
     console.log(
       `Input - Username: ${username}, New Password: ${newPassword}, Hashed Password: ${hashedPassword}`
     );
 
     const result = await Family.update(
       {
-        newPassword: newPassword,
+        password: newPassword,
       },
       {
         where: {
           username: username,
-          email: email,
-          password: password,
         },
       }
     );

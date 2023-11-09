@@ -32,7 +32,7 @@ familyRouter.get("/authCheck", tokenCheck, loginFamily);
 familyRouter.put("/account/updateUsername", updateFamilyUsername);
 
 // update password
-familyRouter.put("/account/updatePassword", hashPass, updateFamilyPassword);
+familyRouter.put("/account/updatePassword", updateFamilyPassword);
 
 // delete user
 familyRouter.delete("/account/delete", deleteFamily);
