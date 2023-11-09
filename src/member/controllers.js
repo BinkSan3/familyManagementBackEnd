@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const addMember = async (req, res) => {
   try {
     if (!req.verification) {
-      console.log(req.verfication);
       throw new Error("Not signed in");
     }
     const FamilyId = req.verification.id;
@@ -57,6 +56,7 @@ const getAllMembers = async (req, res) => {
     res.status(500).json({ message: error.message, error: error });
   }
 };
+
 const getFamilyMembers = async (req, res) => {
   try {
     if (!req.verification) {

@@ -19,16 +19,16 @@ const comparePass = async (req, res, next) => {
       return;
     }
 
-    req.verification = await Family.findOne({
+    req.family = await Family.findOne({
       where: { username: req.body.username },
     });
-    if (!req.verification) {
+    if (!req.family) {
       res.status(401).json({ message: "Invalid username." });
       return;
     }
     const passwordMatch = await bcrypt.compare(
       req.body.password,
-      req.verification.password
+      req.family.password
     );
     if (!passwordMatch) {
       res.status(401).json({ message: "Unauthorised Login!" });
