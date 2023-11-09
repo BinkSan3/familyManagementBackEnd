@@ -3,7 +3,12 @@ const jwt = require("jsonwebtoken");
 
 const addNewTask = async (req, res) => {
   try {
-    const result = await Task.create(req.body);
+    const FamilyId = req.verification.id;
+    const result = await Task.create({
+      FamilyId: FamilyId,
+      taskname: req.body.taskname,
+      points: req.body.points,
+    });
 
     res.status(201).json({ message: "success", result });
   } catch (error) {
@@ -14,7 +19,7 @@ const addNewTask = async (req, res) => {
   }
 };
 
-const getallTasks = async (req, res) => {
+const getAllTasks = async (req, res) => {
   try {
     const result = await Task.findAll();
 
@@ -28,4 +33,24 @@ const getallTasks = async (req, res) => {
   }
 };
 
-module.exports = { addNewTask, getallTasks };
+const assignMember = async (req, res) => {
+  try {
+    const result = await Task.update(
+      { MemberId: req.body.MemberId },
+      { where: { id: req.body.taskid } }
+    );
+    console.log(result);
+    const nullTasks = await Task.findAll({
+      where: {
+        MemberId: null,
+      },
+    });
+    const activeTasks = await Task.findAll({
+      where: {
+        MemberId: req.body.MemberId,
+      },
+    });
+  } catch (error) {}
+};
+
+module.exports = { addNewTask, getAllTasks, assignMember };

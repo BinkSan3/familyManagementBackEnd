@@ -36,6 +36,9 @@ const syncTables = async () => {
   await Member.hasMany(Task);
   await Task.belongsTo(Member);
 
+  await Family.hasMany(Task);
+  await Task.belongsTo(Family);
+
   await Task.sync();
   await Member.sync();
   await Family.sync();
