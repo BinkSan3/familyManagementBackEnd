@@ -1,6 +1,8 @@
 const Family = require("./model");
 const jwt = require("jsonwebtoken");
 const { findMissingRequiredFields } = require("../utils/utils.js");
+const bcrypt = require("bcrypt");
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 const getAllFamilies = async (req, res) => {
   try {
@@ -99,19 +101,32 @@ const updateFamilyUsername = async (req, res) => {
 
 const updateFamilyPassword = async (req, res) => {
   try {
+    const { newPassword, username } = req.body;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    console.log(
+      `Input - Username: ${username}, New Password: ${newPassword}, Hashed Password: ${hashedPassword}`
+    );
+
     const result = await Family.update(
       {
-        password: req.body.newPassword,
+        password: newPassword,
       },
       {
         where: {
-          password: req.body.password,
+          username: username,
         },
       }
     );
-    res
-      .status(201)
-      .json({ message: "Family password successfully updated!", result });
+    console.log("HELLO FROM RESULT", result);
+    if (result[0] === 1) {
+      res
+        .status(201)
+        .json({ message: "Family password successfully updated!", result });
+    } else {
+      res
+        .status(404)
+        .json({ message: "Family not found or password incorrect." });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message, error: error });
   }

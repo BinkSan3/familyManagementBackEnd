@@ -14,7 +14,7 @@ const {
 const { hashPass, comparePass, tokenCheck } = require("../middleware");
 
 // get a family by username
-familyRouter.get("/search/family", getSingleFamily);
+familyRouter.get("/search/:username", getSingleFamily);
 
 // register user in the body
 familyRouter.post("/register", hashPass, registerFamily);
@@ -32,7 +32,7 @@ familyRouter.get("/", getAllFamilies);
 familyRouter.put("/account/updateUsername", updateFamilyUsername);
 
 // update password
-familyRouter.put("/account/updatePassword", hashPass, updateFamilyPassword);
+familyRouter.put("/account/updatePassword", updateFamilyPassword);
 
 // delete user
 familyRouter.delete("/account/delete", deleteFamily);
