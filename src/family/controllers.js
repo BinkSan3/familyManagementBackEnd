@@ -77,7 +77,9 @@ const loginFamily = async (req, res) => {
       return;
     }
     if (req.verification) {
-      res.status(200).json({ message: "Successful Login!", family });
+      res
+        .status(200)
+        .json({ message: "Successful Login!", family: req.verification });
       return;
     }
   } catch (error) {
