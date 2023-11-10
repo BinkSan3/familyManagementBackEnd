@@ -22,7 +22,6 @@ const addNewTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
   try {
-    console.log("MIIISHHHHHH", req.verification);
     const nullTasks = await Task.findAll({
       where: {
         MemberId: null,
@@ -31,7 +30,7 @@ const getAllTasks = async (req, res) => {
     });
     const activeTasks = await Task.findAll({
       where: {
-        MemberId: req.body.MemberId,
+        MemberId: req.params.MemberId,
         FamilyId: req.verification.id,
       },
     });
