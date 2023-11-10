@@ -17,6 +17,11 @@ const Member = connection.define("Member", {
   admin: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
+    defaultValue: false,
+  },
+  colour: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
 });
 

@@ -74,6 +74,8 @@ const loginFamily = async (req, res) => {
       });
       return;
     }
+    console.log("FROM LOG IN BOYYYY", req.verification);
+
     if (req.verification) {
       const members = await req.verification.getMembers();
       res.status(200).json({
