@@ -14,6 +14,15 @@ const Member = connection.define("Member", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  admin: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  colour: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
 
 module.exports = Member;

@@ -56,8 +56,6 @@ const registerFamily = async (req, res) => {
 //ASK MICHAEL about lazy loading vs eager loading and which function works better to get the members
 const loginFamily = async (req, res) => {
   try {
-    console.log("FROM LOGING", req.verification);
-
     if (req.family) {
       const token = await jwt.sign(
         { id: req.family.id },
@@ -76,8 +74,18 @@ const loginFamily = async (req, res) => {
       });
       return;
     }
+    console.log("FROM LOG IN BOYYYY", req.verification);
+
     if (req.verification) {
-      res.status(200).json({ message: "Successful Login!", family });
+      const members = await req.verification.getMembers();
+      res.status(200).json({
+        message: "Successful Login!",
+        family: {
+          username: req.verification.username,
+          email: req.verification.email,
+          members,
+        },
+      });
       return;
     }
   } catch (error) {
@@ -101,15 +109,19 @@ const updateFamilyUsername = async (req, res) => {
 
 const updateFamilyPassword = async (req, res) => {
   try {
-    const { newPassword, username } = req.body;
+    req.family = await Family.findOne({
+      where: { username: req.body.username },
+    });
+    const { newPassword, username, password } = req.body;
+    const passwordMatch = await bcrypt.compare(password, req.family.password);
+    if (!passwordMatch) {
+      return res.status(404).json({ message: "Incorrect Password" });
+    }
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
-    console.log(
-      `Input - Username: ${username}, New Password: ${newPassword}, Hashed Password: ${hashedPassword}`
-    );
 
     const result = await Family.update(
       {
-        password: newPassword,
+        password: hashedPassword,
       },
       {
         where: {
@@ -117,7 +129,6 @@ const updateFamilyPassword = async (req, res) => {
         },
       }
     );
-    console.log("HELLO FROM RESULT", result);
     if (result[0] === 1) {
       res
         .status(201)

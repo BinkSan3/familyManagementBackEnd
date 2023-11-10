@@ -8,6 +8,7 @@ const addNewTask = async (req, res) => {
       FamilyId: FamilyId,
       taskname: req.body.taskname,
       points: req.body.points,
+      MemberId: req.body.MemberId,
     });
 
     res.status(201).json({ message: "success", result });
@@ -21,12 +22,23 @@ const addNewTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
   try {
-    const result = await Task.findAll();
+    console.log("MIIISHHHHHH", req.verification);
+    const nullTasks = await Task.findAll({
+      where: {
+        MemberId: null,
+        FamilyId: req.verification.id,
+      },
+    });
+    const activeTasks = await Task.findAll({
+      where: {
+        MemberId: req.body.MemberId,
+        FamilyId: req.verification.id,
+      },
+    });
 
-    if (result.length >= 1) {
-      res.status(201).json({ message: "success", result });
-      return;
-    }
+    res.status(201).json({ message: "success", nullTasks, activeTasks });
+    return;
+
     res.status(404).json({ message: "failure" });
   } catch (error) {
     res.status(500).json({ message: error.message, error: error });
