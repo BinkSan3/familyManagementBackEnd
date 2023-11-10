@@ -56,8 +56,6 @@ const registerFamily = async (req, res) => {
 //ASK MICHAEL about lazy loading vs eager loading and which function works better to get the members
 const loginFamily = async (req, res) => {
   try {
-    console.log("FROM LOGING", req.verification);
-
     if (req.family) {
       const token = await jwt.sign(
         { id: req.family.id },
@@ -80,7 +78,6 @@ const loginFamily = async (req, res) => {
 
     if (req.verification) {
       const members = await req.verification.getMembers();
-
       res.status(200).json({
         message: "Successful Login!",
         family: {
