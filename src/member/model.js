@@ -13,6 +13,10 @@ const Member = connection.define("Member", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  admin: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
 });
 
 module.exports = Member;

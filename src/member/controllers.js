@@ -12,6 +12,7 @@ const addMember = async (req, res) => {
     const result = await Member.create({
       FamilyId: FamilyId,
       name: req.body.name,
+      url: req.body.url,
     });
 
     res.status(201).json({ message: "success", result });
