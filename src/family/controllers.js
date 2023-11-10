@@ -76,8 +76,19 @@ const loginFamily = async (req, res) => {
       });
       return;
     }
+    console.log("FROM LOG IN BOYYYY", req.verification);
+
     if (req.verification) {
-      res.status(200).json({ message: "Successful Login!", family });
+      const members = await req.verification.getMembers();
+
+      res.status(200).json({
+        message: "Successful Login!",
+        family: {
+          username: req.verification.username,
+          email: req.verification.email,
+          members,
+        },
+      });
       return;
     }
   } catch (error) {
