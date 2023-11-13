@@ -18,16 +18,20 @@ const app = express();
 
 app.use(express.json());
 //RMI|NDER
-app.use(
-  cors({
-    origin: process.env.ORIGIN,
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: process.env.ORIGIN,
+//     credentials: true,
+//   })
+// );
 
-app.use("/family", familyRouter);
-app.use("/member", memberRouter);
-app.use("/task", taskRouter);
+const corsOptions = {
+  origin: process.env.ORIGIN,
+  optionsSuccessStatus :200,
+};
+app.use("/family", cors(corsOptions), familyRouter);
+app.use("/member", cors(corsOptions), memberRouter);
+app.use("/task", cors(corsOptions), taskRouter);
 
 const syncTables = async () => {
   await Family.hasMany(Member);
