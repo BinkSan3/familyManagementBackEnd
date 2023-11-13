@@ -1,7 +1,12 @@
 const { Router } = require("express");
 const taskRouter = Router();
 
-const { addNewTask, getAllTasks, assignMember } = require("./controllers");
+const {
+  addNewTask,
+  getAllTasks,
+  assignMember,
+  editTaskDetails,
+} = require("./controllers");
 const { tokenCheck } = require("../middleware/index");
 
 //post new tasks
@@ -14,6 +19,6 @@ taskRouter.get("/getFamilyTasks/:MemberId", tokenCheck, getAllTasks);
 taskRouter.put("/assignMember", tokenCheck, assignMember);
 
 // edit taskname
-taskRouter.put("/editTask");
+taskRouter.put("/editTask", tokenCheck, editTaskDetails);
 
 module.exports = taskRouter;

@@ -68,4 +68,17 @@ const assignMember = async (req, res) => {
   }
 };
 
-module.exports = { addNewTask, getAllTasks, assignMember };
+const editTaskDetails = async (req, res) => {
+  try {
+    const result = await Task.update(
+      { taskname: req.body.taskname, points: req.body.points },
+      { where: { id: req.body.taskid } }
+    );
+
+    res.status(201).json({ message: "Success!", result });
+  } catch (error) {
+    console.error("Error assigning task:", error);
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+module.exports = { addNewTask, getAllTasks, assignMember, editTaskDetails };
