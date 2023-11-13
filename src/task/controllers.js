@@ -1,4 +1,5 @@
 const Task = require("./model");
+const Member = require("../member/model");
 const jwt = require("jsonwebtoken");
 
 const addNewTask = async (req, res) => {
@@ -45,10 +46,9 @@ const getAllTasks = async (req, res) => {
 const assignMember = async (req, res) => {
   try {
     const result = await Task.update(
-      { MemberId: req.body.MemberId },
+      { MemberId: req.body.MemberId || null },
       { where: { id: req.body.taskid } }
     );
-    console.log(result);
     const nullTasks = await Task.findAll({
       where: {
         MemberId: null,
@@ -59,7 +59,11 @@ const assignMember = async (req, res) => {
         MemberId: req.body.MemberId,
       },
     });
-  } catch (error) {}
+    res.status(201).json({ message: "Success!", result });
+  } catch (error) {
+    console.error("Error assigning task:", error);
+    res.status(500).json({ message: error.message, error: error });
+  }
 };
 
 module.exports = { addNewTask, getAllTasks, assignMember };
