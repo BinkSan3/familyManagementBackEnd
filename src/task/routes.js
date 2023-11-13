@@ -1,7 +1,12 @@
 const { Router } = require("express");
 const taskRouter = Router();
 
-const { addNewTask, getAllTasks, assignMember } = require("./controllers");
+const {
+  addNewTask,
+  getAllTasks,
+  assignMember,
+  deleteTask,
+} = require("./controllers");
 const { tokenCheck } = require("../middleware/index");
 
 //post new tasks
@@ -15,5 +20,7 @@ taskRouter.put("/assignMember", tokenCheck, assignMember);
 
 // edit taskname
 taskRouter.put("/editTask");
+
+taskRouter.delete("/deleteTask", tokenCheck, deleteTask);
 
 module.exports = taskRouter;

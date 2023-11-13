@@ -41,6 +41,7 @@ const comparePass = async (req, res, next) => {
 };
 
 const tokenCheck = async (req, res, next) => {
+  console.log("HELLO TOKEN CHECK", req.body);
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
     const decodedToken = await jwt.verify(token, process.env.SECRET_KEY);
