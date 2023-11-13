@@ -82,4 +82,17 @@ const getFamilyMembers = async (req, res) => {
   }
 };
 
-module.exports = { addMember, deleteMember, getAllMembers, getFamilyMembers };
+const updatePoints = async (req,res) => {
+  try {
+    const result = await Member.update({totalPoints: req.body.newTotalPoints},{
+      where: {
+        id: req.body.id
+      }
+    })
+res.status(201).json({ message: "totalPoints updated", result})
+    
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+}
+module.exports = { addMember, deleteMember, getAllMembers, getFamilyMembers, updatePoints };
