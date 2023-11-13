@@ -6,6 +6,7 @@ const {
   deleteMember,
   getAllMembers,
   getFamilyMembers,
+  updatePoints,
 } = require("./controllers");
 const { tokenCheck } = require("../middleware");
 
@@ -17,10 +18,13 @@ memberRouter.post("/", tokenCheck, addMember);
 memberRouter.delete("/", tokenCheck, deleteMember);
 
 //Get family members as in just the members in a specific family
-memberRouter.get("/familyMembers", tokenCheck, getFamilyMembers);
+memberRouter.get("/familyMembers",tokenCheck, getFamilyMembers); 
 
 //Get all members
 memberRouter.get("/", getAllMembers);
+
+//Update Points
+memberRouter.put("/pointsUpdate", updatePoints);
 
 // load homepage for that member once the other get route and click prompt has been fulfilled
 //once the family get request that includes members has been mapped into buttons this route will be part of a function that runs when said family is clicked?
