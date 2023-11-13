@@ -63,5 +63,15 @@ const assignMember = async (req, res) => {
     });
   } catch (error) {}
 };
+const deleteTask = async (req, res) => {
+  try {
+    const result = await Task.destroy({
+      where: {
+        id: req.body.id,
+      },
+    });
+    res.status(201).json({ message: "Task deleted" });
+  } catch (error) {}
+};
 
-module.exports = { addNewTask, getAllTasks, assignMember };
+module.exports = { addNewTask, getAllTasks, assignMember, deleteTask };
