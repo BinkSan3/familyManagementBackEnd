@@ -25,11 +25,13 @@ const getAllTasks = async (req, res) => {
     const nullTasks = await Task.findAll({
       where: {
         MemberId: null,
+        FamilyId: req.verification.id,
       },
     });
     const activeTasks = await Task.findAll({
       where: {
-        MemberId: req.body.MemberId,
+        MemberId: req.params.MemberId,
+        FamilyId: req.verification.id,
       },
     });
 

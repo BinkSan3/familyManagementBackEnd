@@ -9,7 +9,7 @@ const { tokenCheck } = require("../middleware/index");
 taskRouter.post("/", tokenCheck, addNewTask);
 
 // Get all tasks maybe with this one in the frontend only display/render tasks that have a memberId of null
-taskRouter.get("/getFamilyTasks", tokenCheck, getAllTasks);
+taskRouter.get("/getFamilyTasks/:MemberId", tokenCheck, getAllTasks);
 
 taskRouter.put("/assignMember", tokenCheck, assignMember);
 
