@@ -71,7 +71,7 @@ const assignMember = async (req, res) => {
 const editTaskDetails = async (req, res) => {
   try {
     const result = await Task.update(
-      { taskname: req.body.taskname, points: req.body.points },
+      { taskname: req.body.newTaskName, points: req.body.newPoints },
       { where: { id: req.body.taskid } }
     );
 
