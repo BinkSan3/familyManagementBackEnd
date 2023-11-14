@@ -45,9 +45,9 @@ const syncTables = async () => {
   await Family.hasMany(Task);
   await Task.belongsTo(Family);
 
-  await Task.sync();
-  await Member.sync();
   await Family.sync();
+  await Member.sync();
+  await Task.sync();
 };
 
 app.get("/health", (req, res) => {
