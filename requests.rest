@@ -1,0 +1,11 @@
+###
+PUT http://localhost:3000/task/editTask
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImlhdCI6MTY5OTg4MDc4N30.qGvEeMWz1CozSyqVVk0AVRpVEvQ7GCjYL3q8-z20cGU
+
+{
+    "id": 68,
+     "taskname": "GET SHIT DONE", 
+     "points": 50
+}
+###
