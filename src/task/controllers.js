@@ -69,11 +69,13 @@ const assignMember = async (req, res) => {
 };
 
 const editTaskDetails = async (req, res) => {
+  console.log("SOME LABEL", typeof req.body.points);
   try {
     const result = await Task.update(
-      { taskname: req.body.newTaskName, points: req.body.newPoints },
-      { where: { id: req.body.taskid } }
+      { taskname: req.body.taskname, points: req.body.points },
+      { where: { id: req.body.id } }
     );
+    console.log("BIGRESULT", result);
 
     res.status(201).json({ message: "Success!", result });
   } catch (error) {
