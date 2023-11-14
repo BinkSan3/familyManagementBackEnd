@@ -16,8 +16,9 @@ const port = process.env.PORT || 5001;
 
 const app = express();
 
+app.use(cors())
 app.use(express.json());
-//RMI|NDER
+
 // app.use(
 //   cors({
 //     origin: process.env.ORIGIN,
@@ -25,13 +26,13 @@ app.use(express.json());
 //   })
 // );
 
-const corsOptions = {
-  origin: process.env.ORIGIN,
-  optionsSuccessStatus :200,
-};
-app.use("/family", cors(corsOptions), familyRouter);
-app.use("/member", cors(corsOptions), memberRouter);
-app.use("/task", cors(corsOptions), taskRouter);
+// const corsOptions = {
+//   origin: process.env.ORIGIN,
+//   optionsSuccessStatus :200,
+// };
+app.use("/family", familyRouter);
+app.use("/member", memberRouter);
+app.use("/task", taskRouter);
 
 const syncTables = async () => {
   await Family.hasMany(Member);
