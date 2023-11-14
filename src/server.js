@@ -16,15 +16,21 @@ const port = process.env.PORT || 5001;
 
 const app = express();
 
-app.use(express.json());
-//RMI|NDER
-app.use(
-  cors({
-    origin: process.env.ORIGIN,
-    credentials: true,
-  })
-);
+app.use(cors())
 
+app.use(express.json());
+
+// app.use(
+//   cors({
+//     origin: process.env.ORIGIN,
+//     credentials: true,
+//   })
+// );
+
+// const corsOptions = {
+//   origin: process.env.ORIGIN,
+//   optionsSuccessStatus :200,
+// };
 app.use("/family", familyRouter);
 app.use("/member", memberRouter);
 app.use("/task", taskRouter);

@@ -75,4 +75,25 @@ const deleteTask = async (req, res) => {
   } catch (error) {}
 };
 
-module.exports = { addNewTask, getAllTasks, assignMember, deleteTask };
+const editTaskDetails = async (req, res) => {
+  console.log("SOME LABEL", typeof req.body.points);
+  try {
+    const result = await Task.update(
+      { taskname: req.body.taskname, points: req.body.points },
+      { where: { id: req.body.id } }
+    );
+    console.log("BIGRESULT", result);
+
+    res.status(201).json({ message: "Success!", result });
+  } catch (error) {
+    console.error("Error assigning task:", error);
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+module.exports = {
+  addNewTask,
+  getAllTasks,
+  assignMember,
+  deleteTask,
+  editTaskDetails,
+};
