@@ -46,27 +46,24 @@ const getAllTasks = async (req, res) => {
 };
 
 const assignMember = async (req, res) => {
+  const { MemberId, taskid, action } = req.body;
   try {
-    const result = await Task.update(
-      { MemberId: req.body.MemberId || null },
-      { where: { id: req.body.taskid } }
-    );
-    const nullTasks = await Task.findAll({
-      where: {
-        MemberId: null,
-      },
-    });
-    const activeTasks = await Task.findAll({
-      where: {
-        MemberId: req.body.MemberId,
-      },
-    });
+    let updateValues = {};
+    if (action === "assign") {
+      updateValues = { MemberId: MemberId || null };
+    } else if (action === "unassign") {
+      updateValues = { MemberId: null };
+    } else {
+      return res.status(400).json({ message: "This action is invalid." });
+    }
+    const result = await Task.update(updateValues, { where: { id: taskid } });
     res.status(201).json({ message: "Success!", result });
   } catch (error) {
-    console.error("Error assigning task:", error);
+    console.error("Error handling task assignment:", error);
     res.status(500).json({ message: error.message, error: error });
   }
 };
+
 const deleteTask = async (req, res) => {
   try {
     const result = await Task.destroy({
