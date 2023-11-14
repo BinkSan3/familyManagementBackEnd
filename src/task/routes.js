@@ -6,6 +6,7 @@ const {
   getAllTasks,
   assignMember,
   deleteTask,
+  editTaskDetails,
 } = require("./controllers");
 const { tokenCheck } = require("../middleware/index");
 
@@ -16,10 +17,10 @@ taskRouter.post("/", tokenCheck, addNewTask);
 // Get all tasks maybe with this one in the frontend only display/render tasks that have a memberId of null
 taskRouter.get("/getFamilyTasks/:MemberId", tokenCheck, getAllTasks);
 
-taskRouter.put("/assignMember", tokenCheck, assignMember);
-
 // edit taskname
-taskRouter.put("/editTask");
+taskRouter.put("/editTask", tokenCheck, editTaskDetails);
+
+taskRouter.put("/assignMember", tokenCheck, assignMember);
 
 taskRouter.delete("/deleteTask", tokenCheck, deleteTask);
 
