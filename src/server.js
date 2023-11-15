@@ -20,17 +20,6 @@ app.use(cors())
 
 app.use(express.json());
 
-// app.use(
-//   cors({
-//     origin: process.env.ORIGIN,
-//     credentials: true,
-//   })
-// );
-
-// const corsOptions = {
-//   origin: process.env.ORIGIN,
-//   optionsSuccessStatus :200,
-// };
 app.use("/family", familyRouter);
 app.use("/member", memberRouter);
 app.use("/task", taskRouter);
@@ -57,7 +46,7 @@ app.get("/health", (req, res) => {
 app.listen(port, async () => {
   try {
     await syncTables();
-    console.log("Database tables synced succesfully!");
+    console.log("Database tables synced successfully!");
   } catch (error) {
     console.error("Error syncing tables.", error);
   }
