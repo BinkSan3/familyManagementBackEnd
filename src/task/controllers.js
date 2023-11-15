@@ -39,7 +39,6 @@ const getAllTasks = async (req, res) => {
     res.status(201).json({ message: "success", nullTasks, activeTasks });
     return;
 
-    res.status(404).json({ message: "failure" });
   } catch (error) {
     res.status(500).json({ message: error.message, error: error });
   }
@@ -71,22 +70,22 @@ const deleteTask = async (req, res) => {
         id: req.body.id,
       },
     });
-    res.status(201).json({ message: "Task deleted" });
-  } catch (error) {}
+    res.status(201).json({ message: "Task deleted", result });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
 };
 
 const editTaskDetails = async (req, res) => {
-  console.log("SOME LABEL", typeof req.body.points);
   try {
     const result = await Task.update(
       { taskname: req.body.taskname, points: req.body.points },
       { where: { id: req.body.id } }
     );
-    console.log("BIGRESULT", result);
 
     res.status(201).json({ message: "Success!", result });
   } catch (error) {
-    console.error("Error assigning task:", error);
+    console.error("Error editing task:", error);
     res.status(500).json({ message: error.message, error: error });
   }
 };
