@@ -92,7 +92,10 @@ const updatePoints = async (req,res) => {
     const members = await Member.findAll({where: {
       FamilyId: req.body.FamilyId
     }})
-res.status(201).json({ message: "totalPoints updated", result,members})
+    const user = await Member.findAll ({where: {
+      id: req.body.id
+    }})
+res.status(201).json({ message: "totalPoints updated", result,members,user})
     
   } catch (error) {
     res.status(500).json({ message: error.message, error: error });
