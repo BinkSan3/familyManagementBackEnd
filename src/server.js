@@ -12,17 +12,21 @@ const memberRouter = require("./member/routes");
 const Task = require("./task/model");
 const taskRouter = require("./task/routes");
 
+const Reward = require("./reward/model");
+const rewardRouter = require("./reward/routes");
+
 const port = process.env.PORT || 5001;
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
 
 app.use(express.json());
 
 app.use("/family", familyRouter);
 app.use("/member", memberRouter);
 app.use("/task", taskRouter);
+app.use("/reward", rewardRouter);
 
 const syncTables = async () => {
   await Family.hasMany(Member);
@@ -34,9 +38,13 @@ const syncTables = async () => {
   await Family.hasMany(Task);
   await Task.belongsTo(Family);
 
+  await Family.hasMany(Reward);
+  await Reward.belongsTo(Family);
+
   await Family.sync();
   await Member.sync();
   await Task.sync();
+  await Reward.sync();
 };
 
 app.get("/health", (req, res) => {
